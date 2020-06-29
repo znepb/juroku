@@ -113,10 +113,12 @@ var cc = template.Must(template.New("cc").Funcs(template.FuncMap{
 -- /___/  by 1lann - github.com/tmpim/juroku
 --
 -- Usage:
--- os.loadAPI("image")
+-- local image = require("image")
 -- image.draw(term) or image.draw(monitor)
 
-function draw(t)
+local image = {}
+
+function image.draw(t)
 	local x, y = t.getCursorPos()
 
 	{{range $index, $color := .Palette -}}
@@ -129,7 +131,7 @@ function draw(t)
 	{{end}}
 end
 
-function getColors()
+function image.getColors()
 	local colors = {}
 	{{range $index, $color := .Palette -}}
 	table.insert(colors, 2^{{$index}}, 0x{{colorToHex $color}})
@@ -138,7 +140,9 @@ function getColors()
 	return colors
 end
 
-function getSize()
+function image.getSize()
 	return {{.Width}}, {{.Height}}
 end
+
+return image
 `))
